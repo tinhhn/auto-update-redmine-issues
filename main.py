@@ -38,7 +38,7 @@ for issue in response.json()['issues']:
     except Exception as e:
         print(e)
 
-# log time for CONFIRMED tasks (currently only support for tasks have start_date==due_date)
+# log time for CONFIRMED tasks (currently only support tasks have start_date==due_date)
 response = requests.get(redmine_url + '/issues.json?assigned_to_id=me&status_id=3', auth=auth)
 for issue in response.json()['issues']:
     try:
@@ -59,7 +59,7 @@ for issue in response.json()['issues']:
                 else:
                     print("Can not log time for issue(" + str(issue['id']) + ") successfully")
             # get CONFIRMED tasks (status_id=3) and set to RESOLVED
-            # (currently only support for tasks have start_date==due_date)
+            # (currently only support tasks have start_date==due_date)
             r = requests.put(redmine_url + '/issues/' + str(issue['id']) + ".json", data='{"issue": {"status_id": 5}}',
                              auth=auth, headers=headers)
             if r.status_code == 200:

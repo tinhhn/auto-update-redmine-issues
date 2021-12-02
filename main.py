@@ -26,7 +26,7 @@ headers = {"Content-Type": "application/json"}
 
 
 # get UNCONFIRMED tasks (status_id=2) and set to CONFIRMED
-response = requests.get(redmine_url + '/issues.json?assigned_to_id=me&status_id=2', auth=auth)
+response = requests.get(redmine_url + '/issues.json?assigned_to_id=me&status_id=2&limit=200', auth=auth)
 for issue in response.json()['issues']:
     try:
         r = requests.put(redmine_url + '/issues/' + str(issue['id']) + ".json", data='{"issue": {"status_id": 3}}',
@@ -39,7 +39,7 @@ for issue in response.json()['issues']:
         print(e)
 
 # log time for CONFIRMED tasks (currently only support tasks have start_date==due_date)
-response = requests.get(redmine_url + '/issues.json?assigned_to_id=me&status_id=3', auth=auth)
+response = requests.get(redmine_url + '/issues.json?assigned_to_id=me&status_id=3&limit=200', auth=auth)
 for issue in response.json()['issues']:
     try:
         if issue['start_date'] == issue['due_date']:
